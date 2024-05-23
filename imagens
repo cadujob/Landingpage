@@ -1,0 +1,32 @@
+from PIL import Image, ImageDraw, ImageFont
+
+def create_placeholder_image(text, size=(600, 400), color=(73, 109, 137), text_color=(255, 255, 255)):
+    img = Image.new('RGB', size, color)
+    d = ImageDraw.Draw(img)
+    
+    try:
+        font = ImageFont.truetype("arial.ttf", 40)
+    except IOError:
+        font = ImageFont.load_default()
+    
+    text_width, text_height = d.textsize(text, font=font)
+    position = ((size[0] - text_width) // 2, (size[1] - text_height) // 2)
+    d.text(position, text, fill=text_color, font=font)
+    
+    return img
+
+# Exemplos de uso
+images_info = [
+    ("Logo da Empresa", (150, 50)),
+    ("Imagem das Batatas", (600, 400)),
+    ("Qualidade Inquestionável", (600, 400)),
+    ("Variedade de Cortes", (600, 400)),
+    ("Entrega Rápida e Gratuita", (600, 400)),
+    ("Suporte de Marketing", (600, 400)),
+    ("João, Supermercado ABC", (600, 400)),
+    ("Maria, Supermercado XYZ", (600, 400))
+]
+
+for text, size in images_info:
+    img = create_placeholder_image(text, size)
+    img.save(f"{text.replace(' ', '_').lower()}.png")
